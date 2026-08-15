@@ -1,0 +1,41 @@
+name: Nifty 500 RSI Screener
+
+on:
+  schedule:
+    # 09:00 IST = 03:30 UTC. Cron day-of-week: 6 = Saturday.
+    - cron: "30 3 * * 6"
+  workflow_dispatch: {}   # allows manual "Run workflow" trigger for testing
+
+permissions:
+  contents: write
+
+jobs:
+  run-screener:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run screener
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+        run: python screener.py
+
+      - name: Commit updated report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff --staged --quiet || git commit -m "Update RSI screener report $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
