@@ -47,7 +47,7 @@ XLSX_NAME = "nifty500_rsi_report.xlsx"
 HTML_NAME = "index.html"
 
 RSI_PERIOD = 14
-WEEKLY_RSI_MAX = 30      # Weekly RSI < 30
+WEEKLY_RSI_MAX = 40      # Weekly RSI < 30
 MONTHLY_RSI_MIN = 40     # Monthly RSI > 40
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
