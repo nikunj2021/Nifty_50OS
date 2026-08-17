@@ -5,7 +5,7 @@ Scans every stock in nifty500.csv (column 'Symbol'), computes Weekly RSI and
 Monthly RSI (Wilder's method), and flags stocks where:
 
     Weekly RSI  < 40   (oversold on the weekly timeframe)
-    Monthly RSI > 40   (not oversold on the higher timeframe -> pullback in an
+    Monthly RSI > 30   (not oversold on the higher timeframe -> pullback in an
                         otherwise healthy trend, not a full breakdown)
 
 Outputs:
@@ -48,7 +48,7 @@ HTML_NAME = "index.html"
 
 RSI_PERIOD = 14
 WEEKLY_RSI_MAX = 40      # Weekly RSI < 40
-MONTHLY_RSI_MIN = 40     # Monthly RSI > 40
+MONTHLY_RSI_MIN = 30     # Monthly RSI > 40
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
